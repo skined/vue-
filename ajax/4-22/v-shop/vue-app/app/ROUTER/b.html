@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <a href="javascript:void(0)" onclick="showa()">显示a</a>
+    <a  onclick="showb()">显示b</a>
+    <div id="content"></div>
+    <script>
+        function showa(){
+            history.pushState({},null,'/a')
+        }
+          function showb(){
+            history.pushState({},null,'/b')
+        }
+        //往地址里面添加路径并且不刷新页面
+        window.onpopstate=function(){
+            if(location.pathname=='a'){
+                content.innerHTML='A的内容'
+            }else{
+                content.innerHTML='B的内容'
+            }
+        }
+        //单页应用只有一个页面
+    </script>
+</body>
+</html>

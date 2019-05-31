@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+
+</head>
+<body>
+	<script src="vue.js"></script>
+<script type="text/javascript">
+	//node 后端语言 无阻塞异步io
+	let http=require('http')
+	//http模块 自带模块
+	//创建自己的第一个服务器
+	//createSever创建服务器
+	//req:request请求
+	//res response响应
+	//需要有端口号0-65000 baidu:80
+	//listen:表示监听那个端口号
+	//res.end()后端响应数据
+	//vscode voderuning插件启动    webstorm直接有运行按钮
+	//sublimeText命令行启动 node 文件名
+	http.createServer(function(req,res){
+           res.end('hello world');
+	}).listen(3000,function(){
+		console.log('服务端3000当前启动成功');
+	})
+</script>
+</body>
+</html>

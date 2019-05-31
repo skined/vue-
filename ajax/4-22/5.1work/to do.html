@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      body {
+        background: #cdcdcd;
+      }
+      .wrap {
+        position: relative;
+      }
+      .nav {
+        width: 100%;
+        height: 52px;
+        background: #323232;
+      }
+      .font {
+        width: 608px;
+        height: 34px;
+        position: absolute;
+        /* border:1px solid red; */
+        margin-top: 10px;
+        margin-left: 378px;
+        /* line-height:34px; */
+        text-align: center;
+      }
+
+      .title {
+        font-size: 21px;
+        display: inline-block;
+        color: #d0d6da;
+        float: left;
+      }
+      .inp {
+        width: 368px;
+        height: 25px;
+        border-radius: 10px;
+        padding-left: 10px;
+        float: right;
+      }
+      .baner {
+        width: 608px;
+        margin: auto;
+        position: relative;
+      }
+      .total {
+        font-size: 21px;
+        color: #000;
+        font-weight: bold;
+        display: inline-block;
+      }
+      .to {
+        font-size: 21px;
+        font-weight: bold;
+        color: #000;
+        display: inline-block;
+      }
+      #pend {
+        width: 608px;
+        height: 34px;
+        /* border:1px solid pink; */
+        margin-top: 34px;
+      }
+      #wan {
+        width: 608px;
+        height: 34px;
+        /* border:1px solid pink; */
+        margin-top: 34px;
+      }
+      .foot {
+        font-size: 13px;
+        color: gray;
+        display: inline-block;
+        position: absolute;
+        margin-left: 200px;
+        margin-top: 60px;
+      }
+      .num {
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        border-radius: 50%;
+        line-height: 30px;
+        text-align: center;
+        float: right;
+        background: #fff;
+      }
+      .number {
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        border-radius: 50%;
+        line-height: 30px;
+        text-align: center;
+        float: right;
+        background: #fff;
+      }
+      ul li {
+        display: inline-block;
+        width: 616px;
+        height: 31px;
+        line-height: 31px;
+        background: #fff;
+      }
+      .delete {
+        float: right;
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap" id="app">
+      <div class="nav">
+        <div class="font">
+          <span class="title">ToDoList</span>
+          <span>
+            <input
+              type="text"
+              placeholder="添加todo"
+              class="inp"
+              @keyup.enter="add()"
+              v-model="todoname"
+            />
+          </span>
+        </div>
+      </div>
+      <div class="baner">
+        <div id="pend">
+          <span class="total">正在进行</span>
+          <span class="num">{{ unshiftnum }}</span>
+          <ul>
+            <li
+              v-for="(item,index) in filterPerson"
+              v-bind:class="{completed:item.isChecked}"
+              v-if="!item.isChecked"
+            >
+              <span>
+                <input type="checkbox" id="checkbox" v-model="item.isChecked"
+              /></span>
+              <label>{{ item.title }}</label>
+              <button class="delete" @click="deleteStudent(index)">删除</button>
+            </li>
+          </ul>
+        </div>
+        <div id="wan">
+          <span class="to">已经完成</span>
+          <span class="number">{{ shiftnum }}</span>
+          <ul>
+            <li
+              v-for="(item,index) in filterPerson"
+              v-bind:class="{completed:item.isChecked}"
+              v-if="item.isChecked"
+            >
+              <span>
+                <input type="checkbox" id="checkbox" v-model="item.isChecked" />
+              </span>
+              <label>{{ item.title }}</label>
+              <button class="delete" @click="deleteStudent(index)">删除</button>
+            </li>
+          </ul>
+        </div>
+        <span class="foot">Copyright © 2014 todolist.cn clear</span>
+      </div>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+      //   var person=[
+      //       {title:'吃饭',isChecked:false},
+      //       {title:'睡觉',isChecked:false}
+      //       ]
+      var storage = {
+        set(key, value) {
+          localStorage.setItem(key, JSON.stringify(value))
+        },
+        get(key) {
+          return JSON.parse(localStorage.getItem(key)) || []
+        }
+      }
+      var person = storage.get('customList')
+      //定义一个过滤数组方法
+      var filter = {
+        all: function(person) {
+          return person
+        },
+        unfinished: function(person) {
+          person.filter(item => {
+            return !item.isChecked
+          })
+        },
+        finished: function(person) {
+          return person.filter(item => {
+            return item.isChecked
+          })
+        }
+      }
+      var vm = new Vue({
+        el: '#app',
+        data: {
+          person: person,
+          isChecked: false,
+          todoname: ''
+        },
+        computed: {
+          unshiftnum: function() {
+            return this.person.filter(item => {
+              return !item.isChecked
+            }).length
+          },
+          shiftnum: function(item) {
+            return this.person.filter(item => {
+              return item.isChecked
+            }).length
+          },
+          filterPerson: function() {
+            return filter[this.status] ? filter[this.status](person) : person
+          }
+        },
+        watch: {
+          person: {
+            handler: function() {
+              storage.set('customPerson', person)
+            },
+            deep: true
+          }
+        },
+        methods: {
+          //添加任务
+          add: function() {
+            this.person.push({
+              title: this.todoname,
+              isChecked: false
+            })
+          },
+          deleteStudent: function(index) {
+            this.person.splice(index, 1)
+          }
+        }
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<script src="./node_modules/axios/dist/axios.js"></script>
+<script type="text/javascript">
+	// axios返回的是一个promise
+	// 每次返回的data都比较多，需要自己=去取，所以我们想拿我们想要的数据 axios提供了请求拦截，axios提供了请求拦截和响应拦截
+	// interceptors拦截器
+	// use里面有两个参数，一个是成功的回调，一个是失败的回调
+	 axios.interceptors.request.use(config=>{
+         return config;
+	 },err=>{
+	 	console.log(err);
+	 })//请求拦截
+	// 响应拦截
+	 axios.interceptors.response.use(res=>{
+	 	//这个data是每次响应回来的data,对每次响应回来的data做一层处理，后面每个请求都是处理完的数据
+	 	return res.data;
+	 },err=>{
+       
+	 })
+	axios.defaults.baseURL='http://localhost:3000';
+	axios.get('/slider').then(data=>{
+	    // let{data}=res;
+		console.log(data);
+	})
+	axios.get('/hot').then(data=>{
+		console.log(data,2);
+	})
+</script>
+</body>
+</html>

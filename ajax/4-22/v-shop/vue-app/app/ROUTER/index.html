@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <a href="#a">跳转到a页面</a>
+    <a href="#b">跳转到b页面</a>
+    <div id="content"></div>
+<script>
+ window.onhashchange=function(){
+      let hasname= location.hash.slice(1)
+      console.log(hasname)
+      if(hasname=='a'){
+          content.innerHTML='a的内容'
+      }
+      if(hasname=='b'){
+          content.innerHTML='b的内容'
+      }
+
+ }
+</script>
+</body>
+
+</html>

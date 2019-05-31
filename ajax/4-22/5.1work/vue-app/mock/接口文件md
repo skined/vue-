@@ -1,0 +1,16 @@
+###添加购物车
+接口地址:'/addcar'
+请求地址：psot
+参数object
+参数名称 是否必须 参数说明
+id        是      商品id
+name      是      商品名称
+info      否       商品详情
+img       否       商品图片
+返回值
+code  int  200 成功
+code  int  201-203失败
+msg   
+"id" :1,"name":'苹果' ，'info':"这是最便宜的苹果","price
+作业 用vue写http://www.todolist.cn/
+加一个回到顶部的按钮
